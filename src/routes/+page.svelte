@@ -13,27 +13,30 @@
     }
 </script>
 
-<div class="table-container">
-    <table class="table table-interactive">
-        <thead>
-            <tr>
-                <th class="table-cell-fit"> Emoji </th>
-                <th> Type </th>
-                <th> Description </th>
-            </tr>
-        </thead>
-        <tbody>
-            {#each emojis as emoji}
-                <tr on:click={() => onRowClick(emoji)}>
-                    <td
-                        style:font-size="2rem"
-                        style:line-height="1"
-                        class="table-cell-fit">{emoji.emoji}</td
-                    >
-                    <td class="w-max">{emoji.type}</td>
-                    <td>{emoji.description}</td>
-                </tr>
-            {/each}
-        </tbody>
-    </table>
+<div class="cards-grid" role="grid">
+    {#each emojis as emoji}
+        <div
+            tabindex="0"
+            role="gridcell"
+            class="card card-hover cursor-pointer p-4 grid items-center gap-4 text-center"
+            on:click={() => onRowClick(emoji)}
+            on:keydown={(e) => {
+                if (e.key === "Enter") {
+                    onRowClick(emoji);
+                }
+            }}
+        >
+            <span class="text-6xl">{emoji.emoji}</span>
+            <span class="text-xl">{emoji.type}</span>
+        </div>
+    {/each}
 </div>
+
+<style>
+    .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
+</style>
